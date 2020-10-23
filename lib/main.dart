@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_workshop_completed/custom_card.dart';
 
@@ -8,7 +10,23 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Color cardColor;
+  final List<Color> colors = [Colors.white, Colors.orange, Colors.amber];
+
+  refreshColor() {
+    Color color = colors[Random().nextInt(colors.length)];
+    print('Changing color from $cardColor to $color');
+    setState(() {
+      cardColor = color;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,12 +64,25 @@ class MyApp extends StatelessWidget {
                 height: 20.0,
               ),
               CustomCard(
-                  text: '+351 220430312',
-                  icon:
-                      Platform.isAndroid ? Icons.phone : CupertinoIcons.phone),
+                text: '+351 220430312',
+                icon: kIsWeb || Platform.isAndroid
+                    ? Icons.phone
+                    : CupertinoIcons.phone,
+                background: cardColor,
+              ),
               CustomCard(
-                  text: 'filipe.sousa@fraunhofer.pt',
-                  icon: Platform.isAndroid ? Icons.mail : CupertinoIcons.mail),
+                text: 'filipe.sousa@fraunhofer.pt',
+                icon: kIsWeb || Platform.isAndroid
+                    ? Icons.mail
+                    : CupertinoIcons.mail,
+                background: cardColor,
+              ),
+              RaisedButton.icon(
+                  icon: Icon(Icons.color_lens_outlined),
+                  label: Text('Refresh color'),
+                  onPressed: () {
+                    refreshColor();
+                  }),
             ],
           ),
         ),

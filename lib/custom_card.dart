@@ -4,15 +4,17 @@ import 'package:flutter/widgets.dart';
 class CustomCard extends StatelessWidget {
   final String text;
   final IconData icon;
+  final Color background;
 
-  const CustomCard({Key key, @required this.text, @required this.icon})
+  const CustomCard(
+      {Key key, @required this.text, @required this.icon, this.background})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      color: Colors.white,
+      color: background ?? Colors.white,
       child: ListTile(
         leading: Icon(
           icon,
